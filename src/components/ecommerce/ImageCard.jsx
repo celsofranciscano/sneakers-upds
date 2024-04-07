@@ -27,7 +27,7 @@ function ImageCard({ slides }) {
     <div className="col-span-2 ">
       <div className=" relative rounded-t-md">
         <img
-          className="rounded-t-md w-full h-full object-cover "
+          className="rounded-md w-full h-full object-cover "
           src={slides[index]}
           alt=""
         />

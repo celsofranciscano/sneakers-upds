@@ -1,8 +1,9 @@
 import { useEcommerce } from "@/context/ContextEcommerce";
+import Link from 'next/link'
 function Cart({}) {
     const {cart}= useEcommerce();
   return (
-    <button className="relative">
+    <Link href="/cart" className="relative">
       <svg
         className="w-8 h-8 mr-2 text-gray-800 dark:text-white"
         aria-hidden="true"
@@ -23,7 +24,7 @@ function Cart({}) {
       <span className="absolute flex items-center justify-center top-0 right-0 bg-red-600 rounded-full size-5 ">
         {cart}
       </span>
-    </button>
+    </Link>
   );
 }
 
