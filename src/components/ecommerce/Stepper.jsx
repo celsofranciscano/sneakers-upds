@@ -1,15 +1,15 @@
 function Stepper() {
   return (
     <div>
-      <div className=" relative py-6">
+      <div className=" relative py-6 ">
         <div className="flex   justify-between ">
           <div className="w-full  h-0.5 bg-blue-600 "></div>
           <div className="w-full  h-0.5 bg-green-800 "></div>
         </div>
         <div className="flex absolute  w-full top-0 bottom-0 items-center  justify-between  ">
-          <div className="text-center p-1 bg-zinc-950 border border-green-800 rounded-full">
+          <div className="text-center p-1 bg-white border border-green-500 rounded-full">
             <svg
-              className="w-4.5 h-4.5 text-gray-800 dark:text-white"
+              className="w-4.5 h-4.5 text-green-500"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -26,7 +26,7 @@ function Stepper() {
               />
             </svg>
           </div>
-          <div className="text-center p-1 bg-zinc-950 border border-green-800 rounded-full">
+          <div className="text-center p-1 bg-white border border-green-500 rounded-full">
             <svg
               class="w-4.5 h-4.5 text-gray-800 dark:text-white"
               aria-hidden="true"
@@ -45,7 +45,7 @@ function Stepper() {
               />
             </svg>
           </div>
-          <div className="text-center p-1 bg-zinc-950 border border-green-800 rounded-full">
+          <div className="text-center p-1 bg-white border border-green-500 rounded-full">
             <svg
               class="w-4.5 h-4.5 text-gray-800 dark:text-white"
               aria-hidden="true"
@@ -65,7 +65,7 @@ function Stepper() {
           </div>
         </div>
       </div>
-      <div className="flex text-xs text-zinc-400  justify-between ">
+      <div className="flex text-xs text-zinc-500  justify-between ">
         <div className="">Carrito</div>
         <div className=" ">Detalles de envio</div>
         <div className=" ">Pago</div>

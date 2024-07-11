@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "../globals.css";
-import Header from "@/components/ecommerce/Header";
 import { EcommerceProvider } from "@/context/ContextEcommerce";
+import SideBar from "@/components/ecommerce/common/SideBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <EcommerceProvider>
       <html lang="en">
-        <body className=" bg-white text-black dark:text-white dark:bg-zinc-950">
-          <Header />
-          <main className="px-2 pt-20 md:px-12 ">{children}</main>
+        <body className=" bg-zinc-100">
+          <SideBar />
+          <main className="px-2 pt-20 md:px-8 lg:px-20 ">{children}</main>
         </body>
       </html>
     </EcommerceProvider>

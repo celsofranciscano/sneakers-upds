@@ -1,0 +1,165 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model tbroles {
+  PK_role   Int       @id @default(autoincrement())
+  role      String    @unique @db.VarChar(50)
+  status    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  tbusers   tbusers[]
+}
+
+model tbusers {
+  PK_user      Int           @id @default(autoincrement())
+  FK_role      Int           @default(67483231)
+  firstName    String        @db.VarChar(80)
+  lastName     String        @db.VarChar(80)
+  email        String        @unique @db.VarChar(255)
+  password     String        @db.VarChar(255)
+  profileImage String?       @db.VarChar(255)
+  status       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?
+  tbroles      tbroles       @relation(fields: [FK_role], references: [PK_role])
+  tbaddresses  tbaddresses[]
+  tbsales      tbsales[]
+}
+
+model tbshipments {
+  PK_shipment Int           @id @default(autoincrement())
+  city        String        @db.VarChar(80)
+  description String        @db.VarChar(255)
+  price       Decimal       @db.Decimal(10, 2)
+  status      Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime?
+  tbaddresses tbaddresses[]
+}
+
+model tbaddresses {
+  PK_address  Int         @id @default(autoincrement())
+  FK_user     Int
+  FK_shipment Int
+  address     String      @db.VarChar(255)
+  phone       String      @db.VarChar(20)
+  indications String?     @db.VarChar(255)
+  status      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?
+  tbusers     tbusers     @relation(fields: [FK_user], references: [PK_user])
+  tbshipments tbshipments @relation(fields: [FK_shipment], references: [PK_shipment])
+}
+
+model tbcategories {
+  PK_category Int          @id @default(autoincrement())
+  name        String       @unique @db.VarChar(50)
+  urlCategory String       @unique @db.VarChar(20)
+  description String?      @db.VarChar(255)
+  status      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?
+  tbproducts  tbproducts[]
+}
+
+model tbproducts {
+  PK_product    Int             @id @default(autoincrement())
+  FK_category   Int
+  name          String          @db.VarChar(80)
+  urlProduct    String          @unique @db.VarChar(80)
+  regularPrice  Decimal         @db.Decimal(10, 2)
+  offerPrice    Decimal?        @db.Decimal(10, 2)
+  stock         Int
+  description   String?         @db.VarChar(255)
+  status        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updated       DateTime?
+  tbcategories  tbcategories    @relation(fields: [FK_category], references: [PK_category])
+  tbimages      tbimages[]
+  tbsaledetails tbsaledetails[]
+}
+
+model tbimages {
+  PK_image   Int        @id @default(autoincrement())
+  FK_product Int
+  urlImage   String     @db.VarChar(255)
+  status     Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updated    DateTime?
+  tbproducts tbproducts @relation(fields: [FK_product], references: [PK_product])
+}
+
+model tbsalesstatuses {
+  PK_salestatus    Int       @id @default(autoincrement())
+  name             String    @unique @db.VarChar(50)
+  description      String?   @db.VarChar(255)
+  status           Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime?
+  tbsales          tbsales[]
+}
+
+model tbsales {
+  PK_sale           Int                 @id @default(autoincrement())
+  FK_user           Int
+  FK_salestatus     Int
+  totalAmount       Decimal             @db.Decimal(10, 2)
+  status            Boolean             @default(true)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime?
+  tbusers           tbusers             @relation(fields: [FK_user], references: [PK_user])
+  tbsalesstatuses   tbsalesstatuses     @relation(fields: [FK_salestatus], references: [PK_salestatus])
+  tbsaledetails     tbsaledetails[]
+  tbpaymentreceipts tbpaymentreceipts[]
+}
+
+model tbsaledetails {
+  PK_saledetail Int        @id @default(autoincrement())
+  FK_sale       Int
+  FK_product    Int
+  quantity      Int
+  unitPrice     Decimal    @db.Decimal(10, 2)
+  subtotal      Decimal    @db.Decimal(10, 2)
+  status        Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?
+  tbsales       tbsales    @relation(fields: [FK_sale], references: [PK_sale])
+  tbproducts    tbproducts @relation(fields: [FK_product], references: [PK_product])
+}
+
+model tbpaymentmethods {
+  PK_paymentmethod  Int                 @id @default(autoincrement())
+  name              String              @unique @db.VarChar(50)
+  description       String?             @db.VarChar(255)
+  qrCodeImage       String              @db.VarChar(255)
+  status            Boolean             @default(true)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime?
+  tbpaymentreceipts tbpaymentreceipts[]
+}
+
+model tbpaymentreceipts {
+  PK_paymentreceipt Int              @id @default(autoincrement())
+  FK_paymentmethod  Int
+  FK_sale           Int
+  receiptImage      String           @db.VarChar(255)
+  receiptDate       DateTime
+  receiptTime       DateTime?
+  status            Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime?
+  tbpaymentmethods  tbpaymentmethods @relation(fields: [FK_paymentmethod], references: [PK_paymentmethod])
+  tbsales           tbsales          @relation(fields: [FK_sale], references: [PK_sale])
+}

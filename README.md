@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+
 First, run the development server:
 
 ```bash
@@ -19,6 +20,37 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## LIBRERIAS INSTALADAS
+```bash
+npm i axios
+
+# INSTALACIONDE PRISMA
+
+npm install prisma --save-dev
+npx prisma
+npx prisma init
+
+# MIGRACION DE LA BASE DE DATOS EN PRISMA
+
+npx prisma migrate dev --name init
+
+# VALIDACION DE FORMULARIOS
+
+npm install react-hook-form
+
+#INSTALAR  NEXT AUTH PARA AUTENTICACION
+
+npm install next-auth
+
+# INSTALAR PARA ENCRIPTAR PASSWORD
+
+ npm install bcrypt
+```
+
+## PARA IMPLEMENTAR PRISMA CLIENT BUSCAR MEJORES PRACTICAS DE PRISMA CLIENT CON NEXTJS
+
+
 
 ## Learn More
 

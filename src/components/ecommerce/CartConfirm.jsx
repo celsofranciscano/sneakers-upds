@@ -1,9 +1,12 @@
+import Link from "next/link";
+import LinkButton from "../common/LinkButton";
+import LinkButtonBorder from "../common/LinkButtonBorder";
 function CartConfirm() {
     return ( 
-        <div className="flex md:fixed md:mt-24 mb-4  md:w-[45%] md:right-12  sticky top-20 z-10  bg-white flex-col items-center gap-2 p-8 md:py-[62px] dark:bg-zinc-900 rounded-md shadow-md">
-        <span className="flex items-center text-zinc-400">
+        <div className="flex   bg-white flex-col items-center gap-2 p-8   rounded-md shadow-md">
+        <span className="flex items-center text-zinc-500">
           <svg
-            class="w-5 h-5 text-gray-800 dark:text-zinc-400"
+            class="w-5 h-5 text-zinc-500"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -22,15 +25,12 @@ function CartConfirm() {
           <span>2 Zapatillas</span>
         </span>
         <div className="flex items-center gap-4">
-          <span className="line-through text-zinc-400">Bs 60</span>
-          <h1 className="text-4xl font-bold text-green-300">Bs 42</h1>
+          <span className="line-through text-zinc-500">Bs 60</span>
+          <h1 className="text-4xl font-bold text-green-400">Bs 42</h1>
         </div>
-        <button className="bg-blue-600 rounded-md py-2 w-full">
-          Datalles de envio
-        </button>
-        <button className="border border-blue-500 py-2 w-full rounded-md">
-          Seguir Comprando
-        </button>
+        <LinkButton href={"/carrito/detalles"} name={"Detalles de envio"} />
+       <LinkButtonBorder href={"/store"} name={"Seguir comprando"} />
+      
       </div>
      );
 }

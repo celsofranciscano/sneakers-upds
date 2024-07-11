@@ -1,6 +1,6 @@
 function CardDetails() {
   return (
-    <div className="bg-white grid mb-4 grid-cols-2 dark:bg-zinc-900 rounded-md shadow-md">
+    <div className="bg-white grid mb-4 grid-cols-2 md:grid-cols-1 lg:grid-cols-2  rounded-md shadow-md">
       <div className="relative">
         <img
           className="rounded-l-md"
@@ -16,7 +16,7 @@ function CardDetails() {
           </button>
         </div>
       </div>
-      <div className="p-2 md:py-12 flex flex-col justify-between">
+      <div className="p-2  flex flex-col justify-between">
         <h2 className="font-bold">Zapatillas Hermosas</h2>
         <ul className="list-disc pl-6 text-zinc-400 leading-tight">
           <li>Color: Rojo</li>
@@ -25,7 +25,7 @@ function CardDetails() {
           <li>Material: Algodon</li>
         </ul>
         <div className="flex gap-4 justify-between">
-          <span className="text-green-300 text-md font-bold">
+          <span className="text-blue-500 text-md font-bold">
             Bs 80 <span className="text-xs text-zinc-400">x</span> 5
           </span>
           <button className="text-red-600">
