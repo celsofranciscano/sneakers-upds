@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
 import Cart from "../Cart";
+import { signOut } from "next-auth/react";
 import LinkButton from "@/components/common/LinkButton";
 import LinkButtonBorder from "@/components/common/LinkButtonBorder";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-
 
 function SideBar() {
   const { data: session } = useSession();
@@ -55,43 +55,37 @@ function SideBar() {
             <li>
               <Link href="/store">Store</Link>
             </li>
-         
           </ul>
         </nav>
         <div className="flex gap-4 ">
           <Cart />
 
-          {
-            session?.user?.name ? (
-              session?.user?.image ? (
-                <Image
-                  onClick={btnclickperfil}
-                  className="w-9 h-9 rounded-full cursor-pointer"
-                  src={session?.user?.image}
-                  width={24}
-                  height={24}
-                  alt="perfil"
-                />
-              ) : (
-                <div
-                  onClick={btnclickperfil}
-                  className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200  flex items-center justify-center "
-                >
-                  {session?.user?.name?.charAt(0)?.toUpperCase() || ""}
-                  <h1 className=" text-center text-xl"></h1>
-                </div>
-              )
-            ):(
-
-              <div className="hidden md:flex gap-4">
+          {session?.user?.name ? (
+            session?.user?.image ? (
+              <Image
+                onClick={btnclickperfil}
+                className="w-9 h-9 rounded-full cursor-pointer"
+                src={session?.user?.image}
+                width={24}
+                height={24}
+                alt="perfil"
+              />
+            ) : (
+              <div
+                onClick={btnclickperfil}
+                className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200  flex items-center justify-center "
+              >
+                {session?.user?.name?.charAt(0)?.toUpperCase() || ""}
+                <h1 className=" text-center text-xl"></h1>
+              </div>
+            )
+          ) : (
+            <div className="hidden md:flex items-center  gap-4">
               <LinkButtonBorder href={"/auth/login"} name={"Iniciar sesion"} />
-  
+
               <LinkButton href={"/auth/register"} name={"Crear cuenta"} />
             </div>
-            )
-          }
-
-         
+          )}
         </div>
       </header>
 
@@ -117,7 +111,6 @@ function SideBar() {
                 Store
               </Link>
             </li>
-         
           </ul>
 
           <LinkButtonBorder href={"/auth/login"} name={"Iniciar sesion"} />
@@ -176,7 +169,6 @@ function SideBar() {
             </Link>
           </li>
 
-       
           <li onClick={() => signOut()} className=" cursor-pointer">
             <button className="text-red-500 flex items-center">
               <svg
