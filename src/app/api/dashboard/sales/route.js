@@ -50,12 +50,12 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const { FK_user, FK_salestatus, totalAmount } = await request.json();
+    const { FK_user, FK_salestatus } = await request.json();
     const newSale = await prisma.tbsales.create({
       data: {
         FK_user: Number(FK_user),
         FK_salestatus: Number(FK_salestatus),
-        totalAmount,
+        totalAmount:"0"
       },
     });
 

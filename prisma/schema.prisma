@@ -83,6 +83,7 @@ model tbproducts {
   offerPrice    Decimal?        @db.Decimal(10, 2)
   stock         Int
   description   String?         @db.VarChar(255)
+  urlImage String?       @db.VarChar(255)
   status        Boolean         @default(true)
   createdAt     DateTime        @default(now())
   updated       DateTime?

@@ -31,7 +31,7 @@ function NewSalePage() {
   async function onSubmit(data) {
     const response = await axios.post(`/api/dashboard/sales`, data);
 
-    if(response.status===200){
+    if (response.status === 200) {
       router.refresh();
       router.back();
     }
@@ -39,9 +39,7 @@ function NewSalePage() {
 
   return (
     <section className="p-4 bg-white dark:bg-zinc-900 rounded-md">
-      <h1 className="text-2xl font-medium text-white">
-        Agregar nuevo
-      </h1>
+      <h1 className="text-2xl font-medium text-white">Agregar nuevo</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid md:grid-cols-3 gap-4"
@@ -96,29 +94,6 @@ function NewSalePage() {
             </span>
           )}
         </label>
-
-   
-        <label className="flex flex-col gap-1">
-          Precio total
-          <input
-            className="input-dark"
-            type="number"
-            {...register("totalAmount", {
-              required: {
-                value: true,
-                message: "Valor total obligatorio",
-              },
-            })}
-          />
-          {errors.totalAmount && (
-            <span className="text-sm text-red-500">
-              {errors.totalAmount.message}
-            </span>
-          )}
-        </label>
-      
-
-  
 
         <ButtonSubmit name={"Añadir nuevo"} />
       </form>

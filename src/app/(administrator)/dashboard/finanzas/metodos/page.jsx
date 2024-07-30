@@ -28,7 +28,7 @@ function PaymentMethodsPage() {
         />
       </div>
 
-      <Table url={"paymentmethods"} columns={columns} rows={rows} />
+      <Table url={"paymentmethods"} columns={columns} rows={rows}  pathname={"metodos"} id={"PK_paymentmethod"}/>
     </section>
   );
 }

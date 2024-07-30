@@ -11,7 +11,7 @@ async function Table({ url, columns, rows, pathname,id }) {
     data = response.data;
 
     if (data.length === 0) {
-      return <div className="p-4 rounded-md">No se encontraron Usuarios</div>;
+      return <div className="p-4 rounded-md">No se encontraron datos</div>;
     }
   } catch (error) {
     return (

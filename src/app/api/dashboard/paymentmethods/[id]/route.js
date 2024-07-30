@@ -3,17 +3,13 @@ import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
   try {
-    const id = parseInt(params.id);
-
-    const user = await prisma.tbusers.findUnique({
+    const paymentMethods = await prisma.tbpaymentmethods.findUnique({
       where: {
-        PK_user: id,
+        PK_paymentmethod: Number(params.id),
       },
     });
-    if (user) {
-      return NextResponse.json(user);
-    }
-    return NextResponse.json({});
+
+    return NextResponse.json(paymentMethods);
   } catch (error) {
     return NextResponse.json(
       {
@@ -28,19 +24,20 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const { firstName, lastName, FK_role, status } = await request.json();
-    const editUser = await prisma.tbusers.update({
+    const { name, qrCodeImage, description, status } = await request.json();
+
+    const updatePaymentMethods = await prisma.tbpaymentmethods.update({
       where: {
-        PK_user: Number(params.id),
+        PK_paymentmethod: Number(params.id),
       },
       data: {
-        FK_role: Number(FK_role),
-        firstName,
-        lastName,
+        name,
+        qrCodeImage,
+        description,
         status,
       },
     });
-    return NextResponse.json(editUser);
+    return NextResponse.json(updatePaymentMethods);
   } catch (error) {
     return NextResponse.json(
       {

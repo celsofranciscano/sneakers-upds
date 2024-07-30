@@ -7,8 +7,13 @@ import { useState, useEffect } from "react";
 
 function EditAdministratorPage({ params }) {
   const [roles, setRoles] = useState([]);
-  const [user, setUser] = useState();
-  const [isChecked, setIsChecked] = useState(false);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     async function getRoles() {
@@ -19,34 +24,26 @@ function EditAdministratorPage({ params }) {
 
     async function getUser() {
       const response = await axios.get(`/api/dashboard/users/${params.id}`);
-      setUser(response.data);
-      setIsChecked(response.data.status);  // Set the initial checkbox state
+      const user = response.data;
+      setValue("firstName", user.firstName);
+      setValue("lastName", user.lastName);
+      setValue("FK_role", user.FK_role);
+      setValue("status", user.status);
     }
     getUser();
   }, [params.id]);
 
-  const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
-
   async function onSubmit(data) {
-    data.status = isChecked;  // Include the checkbox state in the form data
-    // const response = await axios.post("/api/auth/register", data);
+    const response = await axios.patch(
+      `/api/dashboard/administrators/${params.id}`,
+      data
+    );
 
-    // if (response.status === 200) {
-    //   router.refresh();
-    //   router.back();
-    // }
-
-    console.log(data)
+    if (response.status === 200) {
+      router.refresh();
+      router.back();
+    }
   }
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
 
   return (
     <section className="p-4 bg-white dark:bg-zinc-900 rounded-md">
@@ -62,8 +59,6 @@ function EditAdministratorPage({ params }) {
           Nombre
           <input
             type="text"
-            autoFocus
-            defaultValue={user?.firstName}
             className="input-dark"
             {...register("firstName", {
               required: {
@@ -82,7 +77,6 @@ function EditAdministratorPage({ params }) {
           Apellido
           <input
             type="text"
-            defaultValue={user?.lastName}
             className="input-dark"
             {...register("lastName", {
               required: {
@@ -102,7 +96,6 @@ function EditAdministratorPage({ params }) {
           Rol
           <select
             className="input-dark"
-            value={user?.FK_role}
             {...register("FK_role", {
               required: {
                 value: true,
@@ -122,16 +115,13 @@ function EditAdministratorPage({ params }) {
             </span>
           )}
         </label>
-
         <label className="flex flex-col gap-1">
           Estado
           <input
             type="checkbox"
-            className="sr-only peer"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
+            className="input-dark size-8"
+            {...register("status")}
           />
-          <div className="block cursor-pointer relative bg-blue-500 w-12 h-6 p-0.5 rounded-full before:absolute before:bg-blue-400 before:w-5 before:h-5 before:p-0.5 before:rounded-full before:transition-all before:duration-500 before:left-0.5 peer-checked:before:left-6 peer-checked:before:bg-white"></div>
         </label>
 
         <ButtonSubmit name={"Guardar cambios"} />

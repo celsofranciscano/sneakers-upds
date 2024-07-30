@@ -76,6 +76,7 @@ CREATE TABLE "tbproducts" (
     "offerPrice" DECIMAL(10,2),
     "stock" INTEGER NOT NULL,
     "description" VARCHAR(255),
+    "urlImage" VARCHAR(255),
     "status" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" TIMESTAMP(3),

@@ -28,9 +28,23 @@ export async function POST(request, { params }) {
       data: {
         FK_sale: Number(params.id),
         FK_product: Number(FK_product),
-        quantity:Number(quantity),
+        quantity: Number(quantity),
         unitPrice,
         subtotal,
+      },
+    });
+    const sale = await prisma.tbsales.findUnique({
+      where: {
+        PK_sale: Number(params.id),
+      },
+    });
+    const updateTotalAmount = Number(sale.totalAmount) + Number(subtotal);
+    const totalAmount = await prisma.tbsales.update({
+      where: {
+        PK_sale: Number(params.id),
+      },
+      data: {
+        totalAmount: updateTotalAmount,
       },
     });
     return NextResponse.json(newSaleDetail);

@@ -10,9 +10,10 @@ function AdministratorsPage() {
     "Apellido",
     "Email",
     "Rol",
+    "Estado",
     "Acciones",
   ];
-  const rows = ["PK_user", "FK_role", "firstName", "lastName", "email", "role"];
+  const rows = ["PK_user", "FK_role", "firstName", "lastName", "email", "role","status"];
   return (
     <section className=" grid gap-4">
       <div className=" flex items-center justify-between ">

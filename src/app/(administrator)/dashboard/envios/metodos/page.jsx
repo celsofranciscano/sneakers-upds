@@ -22,7 +22,7 @@ function ShipmentsMethodsPage() {
         />
       </div>
 
-      <Table url={"shipments"} columns={columns} rows={rows} />
+      <Table url={"shipments"} columns={columns} rows={rows} pathname={"metodos"} id={"PK_shipment"}/>
     </section>
   );
 }

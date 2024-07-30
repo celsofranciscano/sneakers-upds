@@ -29,12 +29,7 @@ async function DetailSalePage({ params }) {
     "Subtotal",
     "Acciones",
   ];
-  const rows = [
-    "PK_saledetail",
-    "quantity",
-    "unitPrice",
-    "subtotal"
-  ];
+  const rows = ["PK_saledetail", "quantity", "unitPrice", "subtotal"];
 
   return (
     <section className=" grid gap-4 ">
@@ -43,14 +38,16 @@ async function DetailSalePage({ params }) {
       </h1>
       <div className="flex gap-4 rounded-md bg-white dark:bg-zinc-900 p-4   ">
         <div className="">
-     
           <h1 className="font-medium text-2xl text-black dark:text-white">
             Cliente: {user.firstName} {user.lastName}
           </h1>
           <h1 className=" text-xl text-black dark:text-white">
             Estado: {status.name}
           </h1>
-      
+          <h1 className=" text-xl text-black dark:text-white">
+            Total: {sale.totalAmount}
+          </h1>
+
           {sale.status && (
             <span className="bg-blue-500 text-white text-sm px-2 rounded-md">
               Activo
@@ -62,8 +59,13 @@ async function DetailSalePage({ params }) {
         <h1 className="text-2xl font-medium text-white">Detalle de la venta</h1>
         <LinkButton href={"detalle/nuevo"} name={"Añadir nuevo"} />
       </div>
-      <Table url={`sales/${params.id}/saledetails`} columns={columns} rows={rows} pathname={"detalle"} id={"PK_saledetail"} />
-
+      <Table
+        url={`sales/${params.id}/saledetails`}
+        columns={columns}
+        rows={rows}
+        pathname={"detalle"}
+        id={"PK_saledetail"}
+      />
     </section>
   );
 }
