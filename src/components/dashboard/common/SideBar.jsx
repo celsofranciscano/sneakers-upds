@@ -1,22 +1,30 @@
 "use client";
+// components/SideBar.js
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 import DarkMode from "@/components/common/DarkMode";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import NavLink from "@/components/common/NavLink";
 
 function SideBar() {
-  // Contiene los datos del usuario
+  const pathname = usePathname();
+
+  const isActive = "/dashboard" === pathname;
+
   const { data: session } = useSession();
 
   function handlebtnclick() {
     document.getElementById("sidebar")?.classList.toggle("hidden");
     // document.getElementById("capa-sidebar")?.classList.toggle("hidden");
   }
+
   function btnclickperfil() {
     document.getElementById("card-perfil")?.classList.toggle("hidden");
   }
+
   useEffect(() => {
     document.documentElement.classList.toggle(
       "dark",
@@ -34,11 +42,11 @@ function SideBar() {
 
   return (
     <>
-      <header className="bg-white dark:bg-zinc-900 h-16 shadow-sm  dark:text-white fixed w-full flex items-center justify-between px-4 md:px-8">
+      <header className="bg-white dark:bg-zinc-900 h-16 shadow-sm dark:text-white fixed w-full flex items-center justify-between px-4 md:px-8">
         <a className="flex gap-1 items-center" href="/dashboard">
-          <img className="w-8" src="/logo.png" alt="logo sneakers" />
-          <span className="text-2xl font-extrabold dark:text-white text-black ">
-            Sneakers
+          {/* <img className="w-8" src="/logo.png" alt="logo sneakers" /> */}
+          <span className="text-2xl font-extrabold dark:text-white text-black">
+          RESTAURANT COMEME
           </span>
         </a>
 
@@ -57,10 +65,10 @@ function SideBar() {
           ) : (
             <div
               onClick={btnclickperfil}
-              className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center "
+              className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center"
             >
               {session?.user?.name?.charAt(0)?.toUpperCase() || ""}
-              <h1 className=" text-center text-xl"></h1>
+              <h1 className="text-center text-xl"></h1>
             </div>
           )}
 
@@ -96,45 +104,73 @@ function SideBar() {
 
       <aside
         id="sidebar"
-        className="bg-white dark:bg-zinc-900 w-72 md:w-60  border-r dark:border-none h-screen dark:text-white text-black  fixed top-16  hidden  md:block px-4 py-8"
+        className="bg-white  dark:bg-zinc-900 w-72 md:w-60 border-r dark:border-none h-screen dark:text-white text-black fixed top-16 hidden md:block px-4 py-8"
       >
-        <nav className="">
-          <ul className="grid  pt-8 ">
-            <li className="hover:bg-blue-100  dark:hover:bg-zinc-800 rounded-md px-4 py-2 ">
-              <Link
-                onClick={handlebtnclick}
-                href="/dashboard"
-                className="flex items-center gap-3"
-              >
-                <span>Inicio</span>
+        <nav>
+          <ul className="grid pt-8 font-medium">
+            <li
+              className={`hover:text-blue-500 rounded-md px-4 py-2 ${
+                isActive ? "text-blue-500" : ""
+              }`}
+              onClick={handlebtnclick}
+            >
+              <Link href={"/dashboard"} className="flex items-center gap-3">
+                Inicio
               </Link>
             </li>
-            <li className="hover:bg-blue-100  dark:hover:bg-zinc-800 rounded-md px-4 py-2 ">
-              <Link
-                onClick={handlebtnclick}
-                href="/dashboard/usuarios"
-                className="flex items-center gap-3"
-              >
-                <span>Usuarios</span>
-              </Link>
-            </li>
-            <li className="hover:bg-blue-100  dark:hover:bg-zinc-800 rounded-md px-4 py-2 ">
-              <Link
-                onClick={handlebtnclick}
-                href="/dashboard/roles"
-                className="flex items-center gap-3"
-              >
-                <span>Roles</span>
-              </Link>
-            </li>
+
+            <NavLink
+              path="/dashboard/clientes"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Clientes"}
+            />
+
+            <NavLink
+              path="/dashboard/roles"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Roles"}
+            />
+
+            <NavLink
+              path="/dashboard/productos"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Productos"}
+            />
+            <NavLink
+              path="/dashboard/ventas"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Ventas"}
+            />
+            <NavLink
+              path="/dashboard/administradores"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Administradores"}
+            />
+            <NavLink
+              path="/dashboard/envios"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Envios"}
+            />
+            <NavLink
+              path="/dashboard/finanzas"
+              currentPath={pathname}
+              onClick={handlebtnclick}
+              name={"Finanzas"}
+            />
           </ul>
         </nav>
         <button
           onClick={() => signOut()}
-          className="text-red-500 flex absolute md:bottom-20 bottom-36 items-center gap-3 hover:bg-blue-200  dark:hover:bg-zinc-800 px-4 py-2 rounded-md "
+          className="text-red-500 flex absolute md:bottom-20 bottom-36 items-center gap-3 hover:bg-blue-200 dark:hover:bg-zinc-800 px-4 py-2 rounded-md"
         >
           <svg
-            className="w-5 h-5 "
+            className="w-5 h-5"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -150,7 +186,7 @@ function SideBar() {
               d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
             />
           </svg>
-          <span>Cerrar sesion</span>
+          <span>Cerrar sesión</span>
         </button>
       </aside>
 
@@ -158,7 +194,7 @@ function SideBar() {
         id="card-perfil"
         className="fixed hidden w-fit h-fit bg-white text-sm dark:bg-zinc-900 rounded-b-md top-16 right-4 p-4 md:right-10 shadow-md"
       >
-        <div className="flex  items-center">
+        <div className="flex items-center">
           {session?.user?.image ? (
             <Image
               width={40}
@@ -168,21 +204,21 @@ function SideBar() {
               alt="profile image"
             />
           ) : (
-            <div className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center ">
+            <div className="w-9 h-9 rounded-full cursor-pointer bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
               {session?.user?.name?.charAt(0)?.toUpperCase() || ""}
             </div>
           )}
 
-          <div className="p-2 ">
+          <div className="p-2">
             <p className="text-white">{session?.user?.name}</p>
             <p>{session?.user?.email}</p>
           </div>
         </div>
-        <ul onClick={btnclickperfil} className="grid gap-2 ">
+        <ul onClick={btnclickperfil} className="grid gap-2">
           <li onClick={btnclickperfil}>
             <Link
-              onClick={btnclickperfil}
               href="/dashboard/profile"
+              onClick={btnclickperfil}
               className="flex items-center"
             >
               <svg
@@ -206,15 +242,15 @@ function SideBar() {
 
           <li
             onClick={toggleTheme}
-            className=" cursor-pointer flex items-center"
+            className="cursor-pointer flex items-center"
           >
             <DarkMode />
             Dark mode
           </li>
-          <li onClick={() => signOut()} className=" cursor-pointer">
+          <li onClick={() => signOut()} className="cursor-pointer">
             <button className="text-red-500 flex items-center">
               <svg
-                className="w-5 h-5 "
+                className="w-5 h-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -230,7 +266,7 @@ function SideBar() {
                   d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
                 />
               </svg>
-              <span>Cerrar sesion</span>
+              <span>Cerrar sesión</span>
             </button>
           </li>
         </ul>

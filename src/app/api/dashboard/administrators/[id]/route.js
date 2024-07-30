@@ -1,18 +1,17 @@
 import prisma from "@/connection/db";
-import { data } from "autoprefixer";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
   try {
     const id = parseInt(params.id);
 
-    const administrator = await prisma.tbadministrators.findUnique({
+    const user = await prisma.tbusers.findUnique({
       where: {
-        PK_administrator: id,
+        PK_user: id,
       },
     });
-    if (administrator) {
-      return NextResponse.json(administrator);
+    if (user) {
+      return NextResponse.json(user);
     }
     return NextResponse.json({});
   } catch (error) {

@@ -3,8 +3,11 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import DangerAlert from "@/components/common/alerts/DangerAlert";
 function LoginPage() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState();
 
   const {
     register,
@@ -19,23 +22,18 @@ function LoginPage() {
         password: data.password,
         redirect: false,
       });
-      console.log(response);
+
+      setErrorMessage(response.error);
       if (response.status === 200) {
-        router.push("/dashboard");
+        router.push("/");
       }
-    } catch (error) {
-      alert(error.message);
-    }
+    } catch (error) {}
   });
 
   return (
     <div className=" flex flex-col   items-center  pt-8 justify-center ">
       <a href="/" className="flex items-center gap-4">
-        <img
-          className="w-10"
-          src="/logo.png"
-          alt="logo sneakers"
-        />
+        <img className="w-10" src="/logo.png" alt="logo sneakers" />
         <h1 className="font-bold">Sneakers</h1>
       </a>
       <h1 className="text-2xl font-bold my-4">Iniciar Sesion</h1>
@@ -44,6 +42,7 @@ function LoginPage() {
         onSubmit={onSubmit}
         className="flex flex-col gap-4   py-4  md:w-1/3 w-full"
       >
+        {errorMessage && <DangerAlert message={errorMessage} />}
         <label htmlFor="email">Correo electronico </label>
         <input
           autoFocus

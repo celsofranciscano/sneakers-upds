@@ -74,6 +74,7 @@ CREATE TABLE tbproducts (
     offerPrice DECIMAL(10,2),
     stock INT NOT NULL,
     description VARCHAR(255),
+    profileImage VARCHAR(255),
     status BOOLEAN DEFAULT TRUE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT NULL,

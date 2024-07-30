@@ -33,7 +33,7 @@ async function PersonalInformation() {
 
       <div className="grid md:grid-cols-3 p-2 bg-white  border-b-2 pt-16 ">
         <div className=" py-2">
-          <p className="font-medium text-lg">{session?.user?.name} Franciscano </p>
+          <p className="font-medium text-lg">{session?.user?.name}</p>
           <p className="text-sm text-zinc-500">{session?.user?.email}</p>
         </div>
         <nav className=" md:col-span-2 py-2 font-medium ">

@@ -27,6 +27,37 @@ CREATE TABLE tbusers (
     FOREIGN KEY (FK_role) REFERENCES tbroles(PK_role)
 );
 
+
+-- Tabla de ventas
+CREATE TABLE tbsales (
+    PK_sale SERIAL PRIMARY KEY,
+    FK_user INT NOT NULL,
+    totalAmount DECIMAL(10,2) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (FK_user) REFERENCES tbusers(PK_user),
+);
+
+-- Tabla de detalles de venta
+CREATE TABLE tbsaledetails (
+    PK_saledetail SERIAL PRIMARY KEY,
+    FK_sale INT NOT NULL,
+    quantity INT NOT NULL,
+    unitPrice DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (FK_sale) REFERENCES tbsales(PK_sale);
+);
+
+ALTER TABLE tbsaledetails
+ADD COLUMN nameProduct VARCHAR(255),
+ADD COLUMN description TEXT;  -- Changed data type to TEXT
+
+
+
 -- Tabla de envíos
 CREATE TABLE tbshipments (
     PK_shipment SERIAL PRIMARY KEY,

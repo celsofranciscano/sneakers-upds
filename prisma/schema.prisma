@@ -102,13 +102,13 @@ model tbimages {
 }
 
 model tbsalesstatuses {
-  PK_salestatus    Int       @id @default(autoincrement())
-  name             String    @unique @db.VarChar(50)
-  description      String?   @db.VarChar(255)
-  status           Boolean   @default(true)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime?
-  tbsales          tbsales[]
+  PK_salestatus Int       @id @default(autoincrement())
+  name          String    @unique @db.VarChar(50)
+  description   String?   @db.VarChar(255)
+  status        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime?
+  tbsales       tbsales[]
 }
 
 model tbsales {

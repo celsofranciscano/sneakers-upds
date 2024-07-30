@@ -14,7 +14,10 @@ async function CardProducts() {
   return (
     <>
       {products.map((product) => (
-        <section key={product.PK_product} className=" max-w-96  rounded-md shadow-sm  ">
+        <section
+          key={product.PK_product}
+          className=" max-w-96  rounded-md shadow-sm  "
+        >
           <img
             className=" rounded-t-md "
             src="https://i.pinimg.com/564x/27/a5/80/27a580f0965bc92ef54efd0355b61335.jpg"
@@ -27,6 +30,7 @@ async function CardProducts() {
             </div>
             <p className="text-zinc-500 dark:text-zinc-400 ">
               {product.description}
+              
             </p>
             <p className="flex items-center gap-1">
               <span className="text-zinc-500 dark:text-zinc-400">4.9 |</span>
