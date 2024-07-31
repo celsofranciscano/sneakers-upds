@@ -7,6 +7,7 @@ import ButtonSubmit from "@/components/common/ButtonSubmit";
 
 function EditSalePage({ params }) {
   const [salestatus, setSalestatus] = useState();
+  const [recibo, setRecibo] = useState();
   const router = useRouter();
   const {
     register,
@@ -29,6 +30,12 @@ function EditSalePage({ params }) {
       setSalestatus(response.data);
     }
     getSaleStatus();
+
+    async function getRecepcion() {
+      const response = await axios.get(`/api/dashboard/paymentreceipts/${params.id}`);
+      setRecibo(response.data);
+    }
+    getRecepcion();
   }, []);
 
   async function onSubmit(data) {
@@ -45,6 +52,12 @@ function EditSalePage({ params }) {
 
   return (
     <section className="p-4 bg-white dark:bg-zinc-900 rounded-md">
+          <h1 className="text-2xl font-medium text-white">Comprobante de venta</h1>
+          <img src={recibo?.receiptImage} alt="" />
+          <p>{recibo?.receiptDate}</p>
+
+
+
       <h1 className="text-2xl font-medium text-white">Editar Venta</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
