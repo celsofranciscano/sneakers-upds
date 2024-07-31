@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Carousel({ slides }) {
   let [current, setCurrent] = useState(0);
@@ -22,18 +23,14 @@ export default function Carousel({ slides }) {
           transform: `translateX(-${current * 100}%)`,
         }}
       >
-        {slides.map((s) => {
-          return <img src={s} />;
+        {slides.map((s, index) => {
+          return <Image key={index} src={s} alt={`slide-${index}`} />;
         })}
       </div>
 
       <div className="absolute top-0 h-full w-full justify-between items-center flex text-white px-10 text-3xl">
-        <button onClick={previousSlide}>
-       atras
-        </button>
-        <button onClick={nextSlide}>
-       adelante
-        </button>
+        <button onClick={previousSlide}>atras</button>
+        <button onClick={nextSlide}>adelante</button>
       </div>
 
       <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
@@ -43,8 +40,8 @@ export default function Carousel({ slides }) {
               onClick={() => {
                 setCurrent(i);
               }}
-              key={"circle" + i}
-              className={`rounded-full w-5 h-5 cursor-pointer  ${
+              key={i}
+              className={`rounded-full w-5 h-5 cursor-pointer ${
                 i == current ? "bg-white" : "bg-gray-500"
               }`}
             ></div>
