@@ -2,7 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 
 async function CardProducts() {
-  let products;
+  let products = [];
   try {
     const response = await axios.get(
       `${process.env.URL_API}/api/ecommerce/products`
