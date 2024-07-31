@@ -26,6 +26,7 @@ export async function GET(request, { params }) {
         PK_product: true,
         name: true,
         urlProduct: true,
+        urlImage: true,
         regularPrice: true,
         offerPrice: true,
         description: true,

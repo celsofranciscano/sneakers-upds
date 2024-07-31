@@ -35,21 +35,26 @@ async function PersonalInformation() {
         <div className=" py-2">
           <p className="font-medium text-lg">{session?.user?.name}</p>
           <p className="text-sm text-zinc-500">{session?.user?.email}</p>
+          <p className="text-sm ">Rol: {session?.user?.role}</p>
         </div>
         <nav className=" md:col-span-2 py-2 font-medium ">
-          <ul className="flex items-center justify-between ">
+          <ul className="flex items-center gap-4 ">
             <li className="text-blue-500">
-              <Link href="">Mis pedidos</Link>
+              <Link href="/perfil">Mis pedidos</Link>
             </li>
             <li>
-              <Link href="">Direccion</Link>
+              <Link href="/perfil/direccion">Direccion</Link>
             </li>
-            <li>
-              <Link href="">Editar perfil</Link>
-            </li>
-            <li>
-              <Link href="">Ajustes</Link>
-            </li>
+            {session?.user?.role !== "Cliente" && (
+              <li>
+                <Link
+                  className="bg-blue-500 rounded-md text-white px-2"
+                  href="/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

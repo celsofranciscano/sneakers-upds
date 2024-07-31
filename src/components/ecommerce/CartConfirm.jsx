@@ -1,7 +1,10 @@
-import Link from "next/link";
+'use client'
+import { useEcommerce } from "@/context/ContextEcommerce";
+
 import LinkButton from "../common/LinkButton";
 import LinkButtonBorder from "../common/LinkButtonBorder";
 function CartConfirm() {
+  const {total}= useEcommerce()
     return ( 
         <div className="flex   bg-white flex-col items-center gap-2 p-8   rounded-md shadow-md">
         <span className="flex items-center text-zinc-500">
@@ -22,11 +25,12 @@ function CartConfirm() {
               d="M15.583 8.445h.01M10.86 19.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 12.31 4l5.734.007A1.968 1.968 0 0 1 20 5.983v5.5a.992.992 0 0 1-.316.727l-7.44 7.5a.974.974 0 0 1-1.384.001Z"
             />
           </svg>
-          <span>2 Zapatillas</span>
+          <span>Zapatillas</span>
         </span>
         <div className="flex items-center gap-4">
-          <span className="line-through text-zinc-500">Bs 60</span>
-          <h1 className="text-4xl font-bold text-green-400">Bs 42</h1>
+          {/* <span className="line-through text-zinc-500">Bs 60</span>
+          <h1 className="text-4xl font-bold text-green-400">Bs 42</h1> */}
+          <h1 className="text-4xl font-bold text-green-400">Bs {total}</h1>
         </div>
         <LinkButton href={"/carrito/detalles"} name={"Detalles de envio"} />
        <LinkButtonBorder href={"/store"} name={"Seguir comprando"} />

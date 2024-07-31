@@ -1,128 +1,208 @@
-import Link from "next/link";
-function DetailsPage() {
-  return (
-    <div className=" ">
-      <div className="">
-        <div className="relative bg-white rounded-lg shadow-md">
-          <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-zinc-600">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-              Create New Product
-            </h3>
-            <button
-              type="button"
-              className="text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-zinc-600 dark:hover:text-white"
-              data-modal-toggle="crud-modal"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
+"use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import LinkButton from "@/components/common/LinkButton";
+
+function NewAdministratorPage() {
+  const { data: session } = useSession();
+  const [shipments, setShipments] = useState([]);
+  const [address, setAddress] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  async function onSubmit(data) {
+    const response = await axios.post(
+      `/api/ecommerce/addresses/${session?.user?.email}`,
+      data
+    );
+    console.log(response);
+
+    if (response.status === 200) {
+      router.refresh();
+      router.push("/carrito/detalles/pago");
+    }
+  }
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+
+    async function getShipments() {
+      try {
+        const response = await axios.get("/api/dashboard/shipments");
+        setShipments(response.data);
+      } catch (error) {
+        console.error("Error fetching shipments:", error);
+      }
+    }
+
+    async function getAddress() {
+      try {
+        const response = await axios.get(
+          `/api/ecommerce/addresses/${session.user.email}`
+        );
+        setAddress(response.data);
+      } catch (error) {
+        console.error("Error fetching address:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getShipments();
+    getAddress();
+  }, [session]);
+
+  if (loading) {
+    return (
+      <section className="p-4 bg-white rounded-md">
+        <h1 className="font-medium pb-8">Cargando...</h1>
+      </section>
+    );
+  }
+
+  if (address) {
+    return (
+      <section className="p-4 bg-white rounded-md shadow-md grid gap-4 ">
+        <h1 className="font-medium text-lg mb-4">Información de Envío</h1>
+        <div className="grid gap-2 md:grid-cols-2">
+          <div className="flex flex-col">
+            <span className="font-semibold">Dirección:</span>
+            <span>{address.address}</span>
           </div>
-          <form className="p-4 md:p-5">
-            <div className="grid gap-4 mb-4 grid-cols-2">
-              <div className="col-span-2">
-                <label
-                  for="name"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-600 dark:border-zinc-500 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type product name"
-                  required=""
-                />
-              </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label
-                  for="price"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
-                >
-                  Price
-                </label>
-                <input
-                  type="number"
-                  name="price"
-                  id="price"
-                  className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-600 dark:border-zinc-500 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required=""
-                />
-              </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label
-                  for="category"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
-                >
-                  Category
-                </label>
-                <select
-                  id="category"
-                  className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-zinc-600 dark:border-zinc-500 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                  <option selected="">Select category</option>
-                  <option value="TV">TV/Monitors</option>
-                  <option value="PC">PC</option>
-                  <option value="GA">Gaming/Console</option>
-                  <option value="PH">Phones</option>
-                </select>
-              </div>
-              <div className="col-span-2">
-                <label
-                  for="description"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
-                >
-                  Product Description
-                </label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  className="block p-2.5 w-full text-sm text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-600 dark:border-zinc-500 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Write product description here"
-                ></textarea>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              <svg
-                className="me-1 -ms-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              Add new product
-            </button>
-          </form>
+          <div className="flex flex-col">
+            <span className="font-semibold">Teléfono:</span>
+            <span>{address.phone}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-semibold">Indicaciones:</span>
+            <span>{address.indications}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-semibold">Ciudad:</span>
+            <span>{address.shipment.city}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-semibold">Descripción del Envío:</span>
+            <span>{address.shipment.description}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-semibold">Precio del Envío:</span>
+            <span>{address.shipment.price} Bs</span>
+          </div>
         </div>
-      </div>
-      <Link href={"/carrito/detalles/pago"} className="bg-blue-500 text-white text-center py-2 px-4">
-      Pasar al pagar</Link>
-    </div>
+        <LinkButton href={"/carrito/detalles/pago"} name={"Pasar a pago"} className="mt-4" />
+      </section>
+    );
+  }
+  
+
+  return (
+    <section className="p-4 bg-white rounded-md">
+      <h1 className="font-medium pb-8">Informacion de envio</h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid gap-4 md:grid-cols-2"
+      >
+        <label className="flex flex-col gap-1">
+          Ciudad
+          <select
+            className="input-dark"
+            {...register("FK_shipment", {
+              required: {
+                value: true,
+                message: "La ciudad es obligatorio",
+              },
+            })}
+          >
+            <option value="">Seleccionar</option>
+            {shipments?.map((shipment) => (
+              <option key={shipment.PK_shipment} value={shipment.PK_shipment}>
+                {shipment.city}: Bs {shipment.price}
+              </option>
+            ))}
+          </select>
+          {errors.FK_shipment && (
+            <span className="text-red-500 text-sm">
+              {errors.FK_shipment.message}
+            </span>
+          )}
+        </label>
+
+        <label className="flex flex-col gap-1">
+          Dirección
+          <input
+            type="text"
+            autoFocus
+            className="input-dark"
+            {...register("address", {
+              required: {
+                value: true,
+                message: "La dirección es obligatorio",
+              },
+            })}
+          />
+          {errors.address && (
+            <span className="text-red-500 text-sm">
+              {errors.address.message}
+            </span>
+          )}
+        </label>
+
+        <label className="flex flex-col gap-1">
+          Teléfono
+          <input
+            type="number"
+            className="input-dark"
+            {...register("phone", {
+              required: {
+                value: true,
+                message: "El teléfono es obligatorio",
+              },
+            })}
+          />
+          {errors.phone && (
+            <span className="text-red-500 text-sm">{errors.phone.message}</span>
+          )}
+        </label>
+
+        <label className="flex flex-col gap-1">
+          Indicaciones
+          <input
+            type="text"
+            className="input-dark"
+            {...register("indications", {
+              required: {
+                value: true,
+                message: "Indicaciones es obligatorio",
+              },
+            })}
+          />
+          {errors.indications && (
+            <span className="text-red-500 text-sm">
+              {errors.indications.message}
+            </span>
+          )}
+        </label>
+
+        <button
+          type="submit"
+          className="py-2 px-4 w-full bg-blue-500 rounded-md text-white md:col-span-2"
+        >
+          Confirmar dirección de envío
+        </button>
+      </form>
+    </section>
   );
 }
 
-export default DetailsPage;
+export default NewAdministratorPage;

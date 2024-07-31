@@ -30,6 +30,7 @@ function SalesStatusesPage() {
         columns={columns}
         rows={rows}
         pathname={"estado"}
+        id={"PK_salestatus"}
       />
     </section>
   );

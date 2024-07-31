@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 function ImageCard({ slides }) {
-  console.log(slides);
+
 
   const [index, setIndex] = useState(0);
 
@@ -24,17 +24,16 @@ function ImageCard({ slides }) {
   }
 
   return (
-    <div className="col-span-2 ">
+    <div className="md:col-span-2 ">
       <div className=" relative rounded-t-md">
         <img
-          className="rounded-md w-full h-full object-cover "
+          className="rounded-md w-full aspect-square object-cover "
           src={slides[index]}
           alt=""
         />
         <div className="flex absolute top-0 bottom-0 items-center w-full px-2 justify-between">
-          <button onClick={clickLeft} className="bg-zinc-700 p-1 rounded-full">
+          <button onClick={clickLeft} className="bg-blue-200 p-1 rounded-full">
             <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -51,9 +50,8 @@ function ImageCard({ slides }) {
               />
             </svg>
           </button>
-          <button onClick={clickRigth} className="bg-zinc-700 p-1 rounded-full">
+          <button onClick={clickRigth} className="bg-blue-200 p-1 rounded-full">
             <svg
-              classNames="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -73,7 +71,7 @@ function ImageCard({ slides }) {
         </div>
       </div>
 
-      <div className="h-16  flex  shadow-md justify-center gap-4 mt-1 rounded-b-md">
+      <div className="h-16  flex   justify-center gap-4 mt-1 rounded-b-md">
         {slides.map((slides, indice) => (
           <img
             key={indice}

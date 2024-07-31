@@ -124,7 +124,7 @@ function RegisterPage() {
         <label htmlFor="password">Confirmar Contraseña </label>
         <input
           className="input-ligth"
-          type="confirmPassword"
+          type="password"
           id="confirmPassword"
           placeholder="Confirma tu contraseña"
           {...register("confirmPassword", {

@@ -20,7 +20,7 @@ function SideBar() {
 
   return (
     <>
-      <header className="h-16 bg-white  shadow-md fixed w-full  flex items-center justify-between  px-2 md:px-8 lg:px-20 ">
+      <header className="h-16 bg-white z-50 shadow-md fixed w-full  flex items-center justify-between  px-2 md:px-8 lg:px-20 ">
         <button
           onClick={menuToggle}
           id="menu-toggle"

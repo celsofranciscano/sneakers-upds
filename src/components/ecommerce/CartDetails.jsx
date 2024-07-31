@@ -1,55 +1,86 @@
+"use client";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useEcommerce } from "@/context/ContextEcommerce";
+
 function CardDetails() {
+  const { cartItems, setTotal } = useEcommerce();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      try {
+        const response = await axios.get(`/api/ecommerce/products`);
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    // Calculate the total amount when products or cartItems change
+    const calculateTotalAmount = () => {
+      let total = 0;
+      cartItems.forEach((cartItem) => {
+        const product = products.find(
+          (product) => parseInt(cartItem.PK_product) === product.PK_product
+        );
+        if (product) {
+          total += cartItem.quantity * product.regularPrice;
+        }
+      });
+      setTotal(total); // Update total in context
+    };
+
+    calculateTotalAmount();
+  }, [products, cartItems, setTotal]);
+
+  // Convert PK_product to numbers for comparison
+  const cartProducts = products.filter((product) =>
+    cartItems.some((item) => parseInt(item.PK_product) === product.PK_product)
+  );
+
+  if (cartProducts.length === 0) {
+    return <p>Tu carrito está vacío</p>;
+  }
+
   return (
-    <div className="bg-white grid mb-4 grid-cols-2 md:grid-cols-1 lg:grid-cols-2  rounded-md shadow-md">
-      <div className="relative">
-        <img
-          className="rounded-l-md"
-          src="https://i.pinimg.com/564x/ec/66/d0/ec66d097dee68b82b70b17d7c2d9410b.jpg"
-          alt=""
-        />
-        <div className="flex w-full absolute top-0 bottom-0 items-center justify-between px-2  ">
-          <button className="bg-opacity-50 bg-zinc-700 rounded-full  text-white size-8 text-center">
-            -
-          </button>
-          <button className="bg-opacity-50 bg-zinc-700 rounded-full  text-white size-8 text-center">
-            +
-          </button>
-        </div>
-      </div>
-      <div className="p-2  flex flex-col justify-between">
-        <h2 className="font-bold">Zapatillas Hermosas</h2>
-        <ul className="list-disc pl-6 text-zinc-400 leading-tight">
-          <li>Color: Rojo</li>
-          <li>Tamaño: XL</li>
-          <li>Estilo: Cuello V</li>
-          <li>Material: Algodon</li>
-        </ul>
-        <div className="flex gap-4 justify-between">
-          <span className="text-blue-500 text-md font-bold">
-            Bs 80 <span className="text-xs text-zinc-400">x</span> 5
-          </span>
-          <button className="text-red-600">
-            <svg
-              class="w-5 h-5 "
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+    <section>
+      {cartProducts.map((product, index) => {
+        const cartItem = cartItems.find(
+          (item) => parseInt(item.PK_product) === product.PK_product
+        );
+        const totalPrice = cartItem.quantity * product.regularPrice;
+        return (
+          <div
+            key={index}
+            className="bg-white grid mb-4 grid-cols-2 md:grid-cols-1 lg:grid-cols-2 rounded-md shadow-md"
+          >
+            <div className="relative">
+              <img
+                className="rounded-l-md w-full aspect-square object-cover"
+                src={product.urlImage}
+                alt={product.name}
               />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+            </div>
+            <div className="p-2 flex flex-col justify-between">
+              <h2 className="font-medium">{product.name}</h2>
+              <p className="text-sm">{product.description}</p>
+              <div className="flex gap-4 justify-between">
+                <span className="text-blue-500 text-md font-bold">
+                  Bs {totalPrice}{" "}
+                  <span className="text-xs text-zinc-400">
+                    x {cartItem.quantity}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </section>
   );
 }
 

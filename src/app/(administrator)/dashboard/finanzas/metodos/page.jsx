@@ -20,7 +20,7 @@ function PaymentMethodsPage() {
   return (
     <section className=" grid gap-4">
       <div className=" flex items-center justify-between ">
-        <h1 className="text-2xl font-medium text-white">Metodos de envio</h1>
+        <h1 className="text-2xl font-medium text-white">Metodos de pago</h1>
 
         <LinkButton
           href={"/dashboard/finanzas/metodos/nuevo"}

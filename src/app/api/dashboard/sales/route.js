@@ -12,7 +12,7 @@ export async function GET() {
 
     // Crear un mapa de estados de venta por su clave primaria para acceso rápido
     const salesStatusMap = salesstatuses.reduce((acc, salesstatus) => {
-      acc[salesstatus.PK_salesstatus] = salesstatus;
+      acc[salesstatus.PK_salestatus] = salesstatus;
       return acc;
     }, {});
 
@@ -24,14 +24,13 @@ export async function GET() {
 
     // Formatear las ventas para incluir la información del estado de venta y usuario correspondiente
     const formattedSales = sales.map((sale) => {
-      const salesstatus = salesStatusMap[sale.FK_salesstatus];
+      const salesstatus = salesStatusMap[sale.FK_salestatus];
       const user = usersMap[sale.FK_user];
       return {
         ...sale,
-        salesStatus: salesstatus.name, // Ajusta según los campos reales de tu tabla
-        userName: user.name, // Ajusta según los campos reales de tu tabla
-        lastName: user.lastName, // Ajusta según los campos reales de tu tabla
-        firstName: user.firstName, // Ajusta según los campos reales de tu tabla
+        salesStatus: salesstatus ? salesstatus.name : null, // Ajusta según los campos reales de tu tabla
+        firstName: user ? user.firstName : null, // Incluye el nombre del usuario
+        lastName: user ? user.lastName : null, // Incluye el apellido del usuario
       };
     });
 

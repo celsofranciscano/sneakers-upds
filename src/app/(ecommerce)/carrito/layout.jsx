@@ -1,7 +1,7 @@
 import Stepper from "@/components/ecommerce/Stepper";
 import CardDetails from "@/components/ecommerce/CartDetails";
 
-export default function RootLayout({ children }) {
+export default function CarritoLayout({ children }) {
   return (
     <div>
       <div className="md:grid     md:grid-cols-3">
@@ -18,12 +18,7 @@ export default function RootLayout({ children }) {
         <div className="md:order-2 md:col-span-2">{children}</div>
 
         <div>
-          <CardDetails />
-          <CardDetails />
-          <CardDetails />
-          <CardDetails />
-          <CardDetails />
-          <CardDetails />
+          
           <CardDetails />
         </div>
       </section>
